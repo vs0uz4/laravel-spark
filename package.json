@@ -1,6 +1,6 @@
 {
   "name": "laravel-spark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom docker image to hold Laravel Spark nodes",
   "repository": "premialab_github",
   "author": "Bryan Vaz",
