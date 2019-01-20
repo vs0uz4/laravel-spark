@@ -23,7 +23,7 @@ jobs:
           root: .
           paths:
             - ./image.tar
-  publish-latest:
+  publish-tag:
     executor: docker-publisher
     steps:
       - setup_remote_docker
