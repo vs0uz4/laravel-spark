@@ -2,7 +2,7 @@
 
 A Docker PHP environment that facilitates scalable Laravel Spark PHP Apps on Docker
 
-[![License](https://img.shields.io/npm/l/enzyme.svg)](https://www.npmjs.com/package/enzyme) [![Build](https://img.shields.io/circleci/project/github/Premialab/laravel-spark.svg?logo=circleci)](https://circleci.com/gh/Premialab/laravel-spark) [![Latest Version](https://img.shields.io/github/tag-date/premialab/laravel-spark.svg?label=latest%20version&logo=github)](https://github.com/Premialab/laravel-spark) [![dockerhub](https://img.shields.io/badge/image-laravel--spark-orange.svg?logo=docker)](https://cloud.docker.com/u/premialab/repository/docker/premialab/laravel-spark)
+[![License](https://img.shields.io/npm/l/enzyme.svg)](https://www.npmjs.com/package/enzyme) [![Build](https://img.shields.io/circleci/project/github/Premialab/laravel-spark.svg?logo=circleci)](https://circleci.com/gh/Premialab/laravel-spark) [![Latest Version](https://img.shields.io/github/tag-date/premialab/laravel-spark.svg?label=latest%20version&logo=github&logoColor=white)](https://github.com/Premialab/laravel-spark) [![dockerhub](https://img.shields.io/badge/image-laravel--spark-orange.svg?logo=docker)](https://cloud.docker.com/u/premialab/repository/docker/premialab/laravel-spark)
 
 ## Build
 

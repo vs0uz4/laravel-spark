@@ -25,29 +25,27 @@ RUN groupadd --gid 1000 node \
 # install git to install dependencies from git repositories
 # install wkhtmltopdf dependencies to convert html to pdf
 RUN apt-get update && apt-get install -y \
-  apt-utils=1.4.8 \
-  gnupg=2.1.18-8~deb9u3 \
-  zip=3.0-11+b1 \
-  unzip=6.0-21 \
-  git=1:2.11.0-3+deb9u4 \
-  libfontconfig1=2.11.0-6.7+b1 \
-  zlib1g-dev=1:1.2.8.dfsg-5 \
-  libfreetype6=2.6.3-3.2 \
-  libxrender1=1:0.9.10-1 \
-  libxext6=2:1.3.3-1+b2 \
-  libx11-6=2:1.6.4-3+deb9u1 \
-  libssl1.0-dev=1.0.2q-1~deb9u1 \
-  apt-transport-https=1.4.8
-
-# install wkhtmltopdf from source to convert html to pdf
-RUN curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
+      apt-utils=1.4.8 \
+      gnupg=2.1.18-8~deb9u3 \
+      zip=3.0-11+b1 \
+      unzip=6.0-21 \
+      git=1:2.11.0-3+deb9u4 \
+      libfontconfig1=2.11.0-6.7+b1 \
+      zlib1g-dev=1:1.2.8.dfsg-5 \
+      libfreetype6=2.6.3-3.2 \
+      libxrender1=1:0.9.10-1 \
+      libxext6=2:1.3.3-1+b2 \
+      libx11-6=2:1.6.4-3+deb9u1 \
+      libssl1.0-dev=1.0.2q-1~deb9u1 \
+      apt-transport-https=1.4.8 \
+  # install wkhtmltopdf from source to convert html to pdf
+  ; curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
   ; tar -xf wkhtmltopdf.tar.xz \
   ; mv wkhtmltox/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf \
   ; chmod +x /usr/local/bin/wkhtmltopdf \
-  ; wkhtmltopdf -V
-
-# install pinned nodejs (from https://github.com/nodejs/docker-node/blob/master/8/jessie/Dockerfile)
-RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
+  ; wkhtmltopdf -V \
+  # install pinned nodejs (from https://github.com/nodejs/docker-node/blob/master/8/jessie/Dockerfile)
+  ; ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
     amd64) ARCH='x64';; \
     ppc64el) ARCH='ppc64le';; \
@@ -82,11 +80,9 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && grep " node-v$NODE_VERSION-linux-$ARCH.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
   && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
   && rm "node-v$NODE_VERSION-linux-$ARCH.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
-  && ln -s /usr/local/bin/node /usr/local/bin/nodejs
-
-
+  && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
 # install yarn from source to build JS front-end distribution (from https://github.com/nodejs/docker-node/blob/master/8/jessie/Dockerfile)
-RUN set -ex \
+  ; set -ex \
   && for key in \
     6A010C5166006599AA17F08146C2130DFD2497F5 \
   ; do \
@@ -101,42 +97,36 @@ RUN set -ex \
   && tar -xzf yarn-v${YARN_VERSION}.tar.gz -C /opt/ \
   && ln -s /opt/yarn-v${YARN_VERSION}/bin/yarn /usr/local/bin/yarn \
   && ln -s /opt/yarn-v${YARN_VERSION}/bin/yarnpkg /usr/local/bin/yarnpkg \
-  && rm yarn-v${YARN_VERSION}.tar.gz.asc yarn-v${YARN_VERSION}.tar.gz
-
+  && rm yarn-v${YARN_VERSION}.tar.gz.asc yarn-v${YARN_VERSION}.tar.gz \
 # install phantomjs for pdf generation
-RUN curl -L -o phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 \
+  ; curl -L -o phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 \
   ; tar xvjf phantomjs.tar.bz2 \
   ; mv phantomjs-${PHANTOMJS_VERSION}/bin/phantomjs /usr/local/bin/phantomjs \
   ; chmod +x /usr/local/bin/phantomjs \
-  ; phantomjs -v
-
+  ; phantomjs -v \
 # install PHP composer to install PHP back-end vendors
-RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin --version=${COMPOSER_VERSION}
-
+  ; curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin --version=${COMPOSER_VERSION} \
 # install APCu Object Cache Backend PHP extension
-RUN pear config-set php_ini /usr/local/etc/php/php.ini  && \
+  ; pear config-set php_ini /usr/local/etc/php/php.ini  && \
     pecl config-set php_ini /usr/local/etc/php/php.ini   && \
-    pecl install apcu-${PECL_VERSION}
-
+    pecl install apcu-${PECL_VERSION} \
 # install other PHP extensions
 # install pdo_mysql to connect to MySQL database
 # install zip dependency for PHPExcel vendor
-RUN docker-php-ext-install \
-  pdo_mysql \
-  zip
-
+  ; docker-php-ext-install \
+      pdo_mysql \
+      zip \
 # configure apache2
-RUN a2enmod rewrite     && \
+  ; a2enmod rewrite     && \
     a2enmod expires     && \
     a2enmod mime        && \
     a2enmod filter      && \
     a2enmod deflate     && \
     a2enmod proxy_http  && \
     a2enmod headers     && \
-    a2enmod php7
-
+    a2enmod php7        \
 # change folders ownerships
-RUN mkdir -p /var/www/html && \
+  ; mkdir -p /var/www/html && \
     chown -R www-data:www-data /var/www/html && \
     chown -R www-data:www-data /var/www && \
     chown -R www-data:www-data /var/log/apache2/ && \
@@ -162,8 +152,8 @@ USER www-data
 
 # install JS front-end packages using yarn
 ADD package.json /tmp/package.json
-RUN cd /tmp && yarn
-RUN mkdir -p /var/www/html && cd /var/www/html && rm -rf node_modules && ln -sf /tmp/node_modules
+RUN cd /tmp && yarn \
+    ; mkdir -p /var/www/html && cd /var/www/html && rm -rf node_modules && ln -sf /tmp/node_modules
 
 # switch to root user
 USER root
