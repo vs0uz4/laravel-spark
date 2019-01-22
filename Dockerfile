@@ -136,7 +136,9 @@ RUN a2enmod rewrite     && \
     a2enmod php7
 
 # change folders ownerships
-RUN chown -R www-data:www-data /var/www && \
+RUN mkdir -p /var/www/html && \
+    chown -R www-data:www-data /var/www/html && \
+    chown -R www-data:www-data /var/www && \
     chown -R www-data:www-data /var/log/apache2/ && \
     rm -Rvf /var/www/html/*
 
