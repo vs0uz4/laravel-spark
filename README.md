@@ -7,7 +7,7 @@ A Docker PHP environment that facilitates scalable Laravel Spark PHP Apps on Doc
 ## Build
 
 ```
-docker build -t premialab/larvel-spark .
+docker build -t premialab/laravel-spark .
 ```
 ## Maintenance 
 
