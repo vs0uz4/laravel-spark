@@ -43,6 +43,14 @@ jobs:
 
 workflows:
   version: 2
+  test-build:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^test-v.*/
+            branches:
+              ignore: /.*/
   build-master:
     jobs:
       - build:
