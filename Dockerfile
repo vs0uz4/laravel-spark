@@ -155,6 +155,9 @@ RUN mkdir -p /var/www/html && cd /var/www/html && rm -rf node_modules && ln -sf 
 # https://getcomposer.org/doc/faqs/how-to-install-untrusted-packages-safely.md
 # https://adamcod.es/2013/03/07/composer-install-vs-composer-update.html
 ADD composer.json composer.json
+ADD tests tests
+ADD vendor vendor
+ADD bootstrap bootstrap
 RUN mkdir database \
   ; composer install
 
