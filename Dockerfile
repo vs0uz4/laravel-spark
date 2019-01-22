@@ -136,9 +136,34 @@ RUN a2enmod rewrite     && \
     a2enmod php7
 
 # change folders ownerships
-RUN chown -R www-data:www-data /var/www && \
+RUN mkdir -p /var/www/html && \
+    chown -R www-data:www-data /var/www/html && \
+    chown -R www-data:www-data /var/www && \
     chown -R www-data:www-data /var/log/apache2/ && \
     rm -Rvf /var/www/html/*
+
+# change working directory to /var/www/html
+WORKDIR /var/www/html
+
+# install PHP back-end vendors using composer
+# https://getcomposer.org/doc/faqs/how-to-install-untrusted-packages-safely.md
+# https://adamcod.es/2013/03/07/composer-install-vs-composer-update.html
+ADD composer.json composer.json
+ADD tests tests
+ADD vendor vendor
+ADD bootstrap bootstrap
+RUN mkdir database \
+  ; composer install \
+  ;  chown -R www-data:www-data /var/www/html
+
+
+# switch to www-data user
+USER www-data
+
+# install JS front-end packages using yarn
+ADD package.json /tmp/package.json
+RUN cd /tmp && yarn
+RUN mkdir -p /var/www/html && cd /var/www/html && rm -rf node_modules && ln -sf /tmp/node_modules
 
 # switch to root user
 USER root
