@@ -23,7 +23,15 @@
         "fideloper/proxy": "^3.3",
         "tarsana/functional": "^2.2",
         "joshralph/password-policy": "dev-master",
-        "symfony/polyfill-php73": "^1.10"
+        "symfony/polyfill-php73": "^1.10",
+        "doctrine/dbal": "~2.9",
+        "aws/aws-sdk-php": "~3.86",
+        "aws/aws-sdk-php-laravel": "~3.3",
+        "guzzlehttp/guzzle": "~6.3",
+        "predis/predis": "~1.1",
+        "components/font-awesome": "4.5.0",
+        "twbs/bootstrap": "3.3.7"
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
