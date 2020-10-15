@@ -7,8 +7,8 @@ USER root
 # environment variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV PHANTOMJS_VERSION 2.1.1-linux-x86_64
-ENV NODE_VERSION 8.15.0
-ENV YARN_VERSION 1.13.0
+ENV NODE_VERSION 14.13.1
+ENV YARN_VERSION 1.22.10
 ENV COMPOSER_VERSION 1.8.0
 ENV PECL_VERSION 5.1.16
 # install wkhtmltopdf 0.12.3 because the quality is better than 0.12.4
