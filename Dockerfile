@@ -30,14 +30,14 @@ RUN apt-get update && apt-get install -y \
       zip=3.0-11+b1 \
       unzip=6.0-21 \
       git=1:2.11.0-3+deb9u4 \
-      libfontconfig1=2.11.0-6.7+b1 \
-      zlib1g-dev=1:1.2.8.dfsg-5 \
-      libfreetype6=2.6.3-3.2 \
-      libxrender1=1:0.9.10-1 \
-      libxext6=2:1.3.3-1+b2 \
-      libx11-6=2:1.6.4-3+deb9u1 \
-      libssl1.0-dev=1.0.2q-1~deb9u1 \
-      apt-transport-https=1.4.8 \
+      libfontconfig1 \
+      zlib1g-dev \
+      libfreetype6 \
+      libxrender1 \
+      libxext6 \
+      libx11-6 \
+      libssl1.0-dev \
+      apt-transport-https \
   # install wkhtmltopdf from source to convert html to pdf
   ; curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
   ; tar -xf wkhtmltopdf.tar.xz \
