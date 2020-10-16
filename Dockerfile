@@ -12,7 +12,7 @@ ENV YARN_VERSION 1.22.10
 ENV COMPOSER_VERSION 1.8.0
 ENV PECL_VERSION 5.1.16
 # install wkhtmltopdf 0.12.3 because the quality is better than 0.12.4
-ENV WKHTMLTOPDF_VERSION 0.12.3
+ENV WKHTMLTOPDF_VERSION 0.12.5
 
 # Node User
 RUN groupadd --gid 1000 node \
@@ -36,7 +36,7 @@ RUN apt-get update && apt-cache policy libssl1.0-dev && apt-get install -y \
       libxrender1 \
       libxext6 \
       libx11-6 \
-      libssl1.0.0=1.0.1t-1+deb8u12 \
+      libssl1.1 \
       apt-transport-https \
   # install wkhtmltopdf from source to convert html to pdf
   ; curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
