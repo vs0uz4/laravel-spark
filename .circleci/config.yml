@@ -39,7 +39,7 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login -u "plabbot" --password-stdin
-            IMAGE_TAG=${CIRCLE_TAG/v/''}
+            IMAGE_TAG=substr(${CIRCLE_TAG/v/''}, 1)
             echo "$CIRCLE_TAG"
             echo "$IMAGE_TAG"
 
