@@ -39,9 +39,9 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login -u "plabbot" --password-stdin
-            IMAGE_TAG=substr(${CIRCLE_TAG/v/''}, 1)
-            echo "$CIRCLE_TAG"
-            echo "$IMAGE_TAG"
+            IMAGE_TAG_WITH_PERIOD=${CIRCLE_TAG/v/''}
+            LENGTH_TO_USE=$((${#IMAGE_TAG_WITH_PERIOD}-1))
+            IMAGE_TAG=${IMAGE_TAG_WITH_PERIOD:1:${LENGTH_TO_USE}}
 
             docker tag $IMAGE_NAME:latest $IMAGE_NAME:$IMAGE_TAG
             docker push $IMAGE_NAME:latest
