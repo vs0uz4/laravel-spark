@@ -24,7 +24,7 @@ RUN groupadd --gid 1000 node \
 # install zip and unzip to install composer vendors
 # install git to install dependencies from git repositories
 # install wkhtmltopdf dependencies to convert html to pdf
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-cache policy libssl1.0-dev && apt-get install -y \
       apt-utils \
       gnupg \
       zip \
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y \
       libxrender1 \
       libxext6 \
       libx11-6 \
-      libssl1.1 \
+      libssl1.0-dev \
       apt-transport-https \
   # install wkhtmltopdf from source to convert html to pdf
   ; curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
