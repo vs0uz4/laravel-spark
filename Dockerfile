@@ -25,11 +25,11 @@ RUN groupadd --gid 1000 node \
 # install git to install dependencies from git repositories
 # install wkhtmltopdf dependencies to convert html to pdf
 RUN apt-get update && apt-get install -y \
-      apt-utils=1.4.8 \
-      gnupg=2.1.18-8~deb9u3 \
-      zip=3.0-11+b1 \
-      unzip=6.0-21 \
-      git=1:2.11.0-3+deb9u4 \
+      apt-utils \
+      gnupg \
+      zip \
+      unzip \
+      git \
       libfontconfig1 \
       zlib1g-dev \
       libfreetype6 \
