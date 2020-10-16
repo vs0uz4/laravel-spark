@@ -98,6 +98,7 @@ RUN apt-get update && apt-cache policy libssl1.0-dev && apt-get install -y \
   && ln -s /opt/yarn-v${YARN_VERSION}/bin/yarn /usr/local/bin/yarn \
   && ln -s /opt/yarn-v${YARN_VERSION}/bin/yarnpkg /usr/local/bin/yarnpkg \
   && rm yarn-v${YARN_VERSION}.tar.gz.asc yarn-v${YARN_VERSION}.tar.gz \
+  ; export OPENSSL_CONF=/etc/ssl/ \
 # install phantomjs for pdf generation
   ; curl -L -o phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 \
   ; tar xvjf phantomjs.tar.bz2 \
