@@ -12,7 +12,7 @@ ENV YARN_VERSION 1.22.10
 ENV COMPOSER_VERSION 1.8.0
 ENV PECL_VERSION 5.1.16
 # install wkhtmltopdf 0.12.3 because the quality is better than 0.12.4
-ENV WKHTMLTOPDF_VERSION 0.12.6
+ENV WKHTMLTOPDF_VERSION 0.12.3
 
 # Node User
 RUN groupadd --gid 1000 node \
