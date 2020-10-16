@@ -12,7 +12,7 @@ ENV YARN_VERSION 1.22.10
 ENV COMPOSER_VERSION 1.8.0
 ENV PECL_VERSION 5.1.16
 # install wkhtmltopdf 0.12.3 because the quality is better than 0.12.4
-ENV WKHTMLTOPDF_VERSION 0.12.3
+ENV WKHTMLTOPDF_VERSION 0.12.6
 
 # Node User
 RUN groupadd --gid 1000 node \
@@ -25,13 +25,12 @@ RUN groupadd --gid 1000 node \
 # install git to install dependencies from git repositories
 # install wkhtmltopdf dependencies to convert html to pdf
 RUN apt-get update && apt-get install -y \
-      apt-utils=2.1.0 \
+      apt-utils=1.4.8 \
       gnupg=2.1.18-8~deb9u3 \
       zip=3.0-11+b1 \
       unzip=6.0-21 \
       git=1:2.11.0-3+deb9u4 \
-      freetype-devel \
-      libfontconfig1=2.13.1-4.2 \
+      libfontconfig1=2.11.0-6.7+b1 \
       zlib1g-dev=1:1.2.8.dfsg-5 \
       libfreetype6=2.6.3-3.2 \
       libxrender1=1:0.9.10-1 \
