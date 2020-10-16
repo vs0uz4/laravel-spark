@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
       zip=3.0-11+b1 \
       unzip=6.0-21 \
       git=1:2.11.0-3+deb9u4 \
-      libfontconfig1 \
+      libfontconfig1=2.11.0-6.7+b1:i386 \
       zlib1g-dev=1:1.2.8.dfsg-5 \
       libfreetype6=2.6.3-3.2 \
       libxrender1=1:0.9.10-1 \
