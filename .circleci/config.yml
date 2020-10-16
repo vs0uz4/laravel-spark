@@ -53,7 +53,7 @@ workflows:
             - docker
           filters:
             tags:
-              only: /^test-v.*/
+              only: /^test-v*/
             branches:
               ignore: /.*/
   build-master:
@@ -63,7 +63,7 @@ workflows:
             - docker
           filters:
             tags:
-              only: /^v.*/
+              only: /^v*/
             branches:
               ignore: /.*/
       - publish-tag:
@@ -73,6 +73,6 @@ workflows:
             - build
           filters:
             tags:
-              only: /^v.*/
+              only: /^v*/
             branches:
               ignore: /.*/
