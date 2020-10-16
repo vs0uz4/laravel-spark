@@ -36,7 +36,7 @@ RUN apt-get update && apt-cache policy libssl1.0-dev && apt-get install -y \
       libxrender1 \
       libxext6 \
       libx11-6 \
-      libssl1.0.0 \
+      libssl1.0.0=1.0.1t-1+deb8u12 \
       apt-transport-https \
   # install wkhtmltopdf from source to convert html to pdf
   ; curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
