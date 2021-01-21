@@ -120,7 +120,7 @@ RUN apt-get update && apt-get install -y \
   ; docker-php-ext-install \
       pdo_mysql \
       zip \
-# configure apache2
+# configure apache2 and inject ip for SERVER_NAME directive
   ; sed -i -e "s/"example.com.br"/`awk 'END{print $1}' /etc/hosts`/g" /etc/apache2/apache2.conf \
   ; sed -i -e "s/#ServerName www.example.com/ServerName `awk 'END{print $1}' /etc/hosts`/g" /etc/apache2/sites-available/000-default.conf \
   ; sed -i -e "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/public/g" /etc/apache2/sites-available/000-default.conf \
