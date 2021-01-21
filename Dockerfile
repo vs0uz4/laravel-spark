@@ -4,19 +4,23 @@ LABEL maintainer="PremiaLab"
 LABEL author="Bryan Vaz"
 USER root
 
+# arguments for build
+ARG DEBIAN_FRONTEND=noninteractive
+
 # environment variables
-ENV DEBIAN_FRONTEND noninteractive
 ENV PHANTOMJS_VERSION 2.1.1-linux-x86_64
-ENV NODE_VERSION 14.13.1
+ENV NODE_VERSION 14.15.4
 ENV YARN_VERSION 1.22.10
-ENV COMPOSER_VERSION 1.8.0
-ENV PECL_VERSION 5.1.16
-# install wkhtmltopdf 0.12.3 because the quality is better than 0.12.4
+ENV COMPOSER_VERSION 2.0.8
+ENV PECL_VERSION 5.1.19
 ENV WKHTMLTOPDF_VERSION 0.12.3
 
 # Node User
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+
+# Add default apache configurations files, for define SERVER_NAME
+ADD .docker/apache2.conf /etc/apache2/apache2.conf
 
 # install all the system dependencies
 # install apt-utils for workaround of missing ubuntu package
@@ -25,19 +29,18 @@ RUN groupadd --gid 1000 node \
 # install git to install dependencies from git repositories
 # install wkhtmltopdf dependencies to convert html to pdf
 RUN apt-get update && apt-get install -y \
-      apt-utils=1.4.8 \
-      gnupg=2.1.18-8~deb9u3 \
-      zip=3.0-11+b1 \
-      unzip=6.0-21 \
-      git=1:2.11.0-3+deb9u4 \
-      libfontconfig1=2.11.0-6.7+b1 \
-      zlib1g-dev=1:1.2.8.dfsg-5 \
-      libfreetype6=2.6.3-3.2 \
+      gnupg=2.2.12-1+deb10u1 \
+      zip=3.0-11+b1\
+      unzip=6.0-23+deb10u1 \
+      git=1:2.20.1-2+deb10u3 \
+      libfontconfig1=2.13.1-2 \
+      zlib1g-dev=1:1.2.11.dfsg-1 \
+      libfreetype6=2.9.1-3+deb10u2 \
       libxrender1=1:0.9.10-1 \
       libxext6=2:1.3.3-1+b2 \
-      libx11-6=2:1.6.4-3+deb9u1 \
-      libssl1.0-dev=1.0.2q-1~deb9u1 \
-      apt-transport-https=1.4.8 \
+      libx11-6=2:1.6.7-1+deb10u1 \
+      libssl-dev=1.1.1d-0+deb10u4 \
+      apt-transport-https=1.8.2.2 \
   # install wkhtmltopdf from source to convert html to pdf
   ; curl -L -o wkhtmltopdf.tar.xz https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz \
   ; tar -xf wkhtmltopdf.tar.xz \
@@ -103,6 +106,7 @@ RUN apt-get update && apt-get install -y \
   ; tar xvjf phantomjs.tar.bz2 \
   ; mv phantomjs-${PHANTOMJS_VERSION}/bin/phantomjs /usr/local/bin/phantomjs \
   ; chmod +x /usr/local/bin/phantomjs \
+  ; sed -i '/ssl_conf/s/^/#/g' /etc/ssl/openssl.cnf \
   ; phantomjs -v \
 # install PHP composer to install PHP back-end vendors
   ; curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin --version=${COMPOSER_VERSION} \
@@ -117,6 +121,9 @@ RUN apt-get update && apt-get install -y \
       pdo_mysql \
       zip \
 # configure apache2
+  ; sed -i -e "s/"example.com.br"/`awk 'END{print $1}' /etc/hosts`/g" /etc/apache2/apache2.conf \
+  ; sed -i -e "s/#ServerName www.example.com/ServerName `awk 'END{print $1}' /etc/hosts`/g" /etc/apache2/sites-available/000-default.conf \
+  ; sed -i -e "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/public/g" /etc/apache2/sites-available/000-default.conf \
   ; a2enmod rewrite     && \
     a2enmod expires     && \
     a2enmod mime        && \
@@ -135,25 +142,15 @@ RUN apt-get update && apt-get install -y \
 # change working directory to /var/www/html
 WORKDIR /var/www/html
 
-# install PHP back-end vendors using composer
-# https://getcomposer.org/doc/faqs/how-to-install-untrusted-packages-safely.md
-# https://adamcod.es/2013/03/07/composer-install-vs-composer-update.html
-ADD composer.json composer.json
-ADD tests tests
-ADD vendor vendor
-ADD bootstrap bootstrap
-RUN mkdir database \
-  ; composer install \
-  ;  chown -R www-data:www-data /var/www/html
-
+# creating Laravel with composer and change folder ownerships
+RUN composer create-project --prefer-dist laravel/laravel ./ "5.8.*" \ 
+  ; chown -R www-data:www-data /var/www/html
 
 # switch to www-data user
 USER www-data
 
 # install JS front-end packages using yarn
-ADD package.json /tmp/package.json
-RUN cd /tmp && yarn \
-    ; mkdir -p /var/www/html && cd /var/www/html && rm -rf node_modules && ln -sf /tmp/node_modules
+RUN yarn
 
 # switch to root user
 USER root
